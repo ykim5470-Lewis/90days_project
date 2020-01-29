@@ -40,6 +40,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
 
+      - name: Add DotEnv
+        env:
+          PORT: ${{ secrets.PORT }}
+        run: |
+          echo PORT=$PORT >> .env
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
