@@ -1,0 +1,62 @@
+{
+  "containerDefinitions": [
+    {
+      "command": [],
+      "cpu": 0,
+      "dependsOn": null,
+      "disableNetworking": null,
+      "dnsSearchDomains": [],
+      "dnsServers": [],
+      "dockerLabels": {},
+      "dockerSecurityOptions": [],
+      "entryPoint": [],
+      "environment": [],
+      "essential": true,
+      "extraHosts": [],
+      "firelensConfiguration": null,
+      "healthCheck": null,
+      "hostname": null,
+      "image": "625807223181.dkr.ecr.ap-northeast-2.amazonaws.com/wecode-notes-management:latest",
+      "interactive": null,
+      "links": [],
+      "linuxParameters": null,
+      "logConfiguration": null,
+      "memory": null,
+      "memoryReservation": 512,
+      "mountPoints": [],
+      "name": "Wecode-Container",
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "protocol": "tcp",
+          "containerPort": 80
+        }
+      ],
+      "privileged": null,
+      "pseudoTerminal": null,
+      "readonlyRootFilesystem": null,
+      "resourceRequirements": null,
+      "secrets": [],
+      "startTimeout": null,
+      "stopTimeout": null,
+      "systemControls": [],
+      "ulimits": [],
+      "user": null,
+      "volumesFrom": [],
+      "workingDirectory": null
+    }
+  ],
+  "cpu": "256",
+  "executionRoleArn": "arn:aws:iam::625807223181:role/Wecode-TaskRole",
+  "family": "WecodeECS-TaskDefinition-1Q73Z1KI06CXH",
+  "inferenceAccelerators": null,
+  "ipcMode": null,
+  "memory": "512",
+  "networkMode": "awsvpc",
+  "pidMode": null,
+  "placementConstraints": [],
+  "proxyConfiguration": null,
+  "requiresCompatibilities": ["FARGATE"],
+  "taskRoleArn": "arn:aws:iam::625807223181:role/Wecode-TaskRole",
+  "volumes": []
+}
