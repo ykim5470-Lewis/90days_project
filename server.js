@@ -25,6 +25,11 @@ class NextServer extends http.Server {
     this.server.use(express.json());
     this.server.use(express.urlencoded({ extended: true }));
 
+    // health check
+    this.server.get('/_health', (req, res) => {
+      res.send({ okay: true });
+    });
+
     // send all routes to the NEXT handler
     this.router.all('*', (req, res) => {
       return this.handler(req, res);
