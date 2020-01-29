@@ -16,11 +16,30 @@ WECODE 팀 프로젝트 - 투자자 보유 원리금수취권 관리 페이지�
 
 ### How To Run
 
-##### Dev
+##### DOTENV
 
-##### Build
+로컬에서 환경변수를 관리하는 `.env` 파일을 루트 디렉터리에 추가해야 합니다.
 
-##### SSR in Local
+```
+PORT=서버 렌더링 시 접근할 포트
+API_URL=PostgREST 접속 주소
+BASE_URL=플랫폼 하단에 위치할 subpath
+```
+
+##### Install & Dev
+
+```
+yarn install
+yarn dev (Client-Side Rendering)
+```
+
+##### Build & SSR in Local
+
+```
+yarn build
+yarn start
+```
 
 ##### Deploy
 
+master 브랜치로 push할 경우, `./github` 디렉터리에 저장된 Github Actions 템플릿을 통해 AWS ECS로 자동 배포됩니다.

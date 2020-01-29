@@ -17,6 +17,7 @@ class NextServer extends http.Server {
 
     this.server = server;
     this.handler = handler;
+    this.router = express.Router();
   }
 
   start() {
@@ -25,10 +26,12 @@ class NextServer extends http.Server {
     this.server.use(express.urlencoded({ extended: true }));
 
     // send all routes to the NEXT handler
-    this.server.all('*', (req, res) => {
+    this.router.all('*', (req, res) => {
       return this.handler(req, res);
     });
 
+    // Add BaseURL for subpath
+    this.server.use(process.env.BASE_URL, this.router);
     return this;
   }
 }
