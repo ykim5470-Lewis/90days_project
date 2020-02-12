@@ -20,7 +20,8 @@ jobs:
           API_URL: ${{ secrets.API_URL }}
           BASE_URL: ${{ secrets.BASE_URL }}
           AUTHORIZATION: ${{ secrets.AUTHORIZATION }}
-        run: echo PORT=$PORT >> .env
+        run: |
+          echo PORT=$PORT >> .env
           echo API_URL=$API_URL >> .env
           echo BASE_URL=$BASE_URL >> .env
           echo AUTHORIZATION=$BASE_URL >> .env
