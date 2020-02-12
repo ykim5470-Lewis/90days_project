@@ -1,9 +1,23 @@
-import { NextPage } from 'next';
-import { useState } from 'react';
+import { NextPage } from "next";
+import { useState } from "react";
 
-import { fetchKROSS } from '../ajax';
+import { fetchKROSS } from "../ajax";
 
-const Index: NextPage = () => {
+interface IMember {
+  member_no: string;
+  email: string;
+  div_inv: string;
+  regpath: string;
+  pc_div: string;
+}
+interface ILayoutProps {
+  children: React.ReactNode;
+  result: boolean;
+  member: IMember;
+}
+
+const Index: NextPage = (props: ILayoutProps) => {
+  console.log(props);
   const [state, setState] = useState([]);
 
   async function onClick() {
