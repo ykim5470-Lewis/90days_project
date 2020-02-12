@@ -16,8 +16,8 @@ MyApp.getInitialProps = async appContext => {
   const res = await fetch("http://dev5.kross.kr/login/v2/api/session/exists", {
     method: "post",
     headers: {
-      authorization: process.env.AUTHORIZATION,
-      cookie: `SESSION=${SESSION}`,
+      Authorization: process.env.AUTHORIZATION,
+      Cookie: `SESSION=${SESSION}`,
     },
   });
   let json = await res.json();
