@@ -2,24 +2,32 @@ import { NextPage } from "next";
 import { useState } from "react";
 
 import { fetchKROSS } from "../ajax";
+import { Store } from "redux";
+import { NextPageContext } from "next";
+import { setNotesData } from "../redux/reducers/notes";
 
-interface IMember {
-  member_no: string;
-  email: string;
-  div_inv: string;
-  regpath: string;
-  pc_div: string;
+interface Context extends NextPageContext {
+  store: Store;
 }
-interface ILayoutProps {
+interface INotes {
+  id: number;
+  inBasket: boolean;
+  product_code: string;
+  manage_balance: number;
+  origin_principal: number;
+  rate: number;
+  startAt: string;
+  returnAt: string;
+  period: number;
+  leftPeriod: number;
+}
+interface INotesProps {
   children: React.ReactNode;
-  result: boolean;
-  member: IMember;
+  notes: Array<INotes>;
 }
-
-const Index: NextPage = (props: ILayoutProps) => {
-  console.log(props);
+const Index: NextPage = props => {
+  console.log("props: ", props);
   const [state, setState] = useState([]);
-
   async function onClick() {
     try {
       // 현재 PostgREST 쿼리가 노출되어 있습니다.
@@ -38,8 +46,36 @@ const Index: NextPage = (props: ILayoutProps) => {
         Click me
       </button>
       <p>{JSON.stringify(state)}</p>
+      {/* <div>{notes && `notes.length ${notes.length}`}</div> */}
     </div>
   );
 };
-
+Index.getInitialProps = async (ctx: Context) => {
+  const { dispatch, getState } = ctx.store;
+  try {
+    let res = await fetch(
+      "http://10.28.3.231:7999/svc/pgt2/notes?member_id=eq.30&state=eq.investing"
+    );
+    let data = await res.json();
+    const processedNotes = data.map(obj => {
+      return {
+        id: obj["id"],
+        inBasket: false,
+        product_code: obj["product_code"],
+        manage_balance: obj["origin_principal"],
+        origin_principal: obj["origin_principal"],
+        rate: obj["rate"],
+        startAt: obj["startAt"],
+        returnAt: obj["returnAt"],
+        period: obj["period"],
+        leftPeriod: obj["period"]
+      };
+    });
+    dispatch(setNotesData(processedNotes));
+    const notes = getState().notes.notesState;
+    return { notes };
+  } catch (err) {
+    console.log("At Index getInitialProps err: ", err);
+  }
+};
 export default Index;
