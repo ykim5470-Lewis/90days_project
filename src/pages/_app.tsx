@@ -1,27 +1,41 @@
 import fetch from "isomorphic-fetch";
 import cookies from "next-cookies";
-
-export default function MyApp({ Component, pageProps }) {
+import { createStore, compose, applyMiddleware } from "redux";
+import { Provider } from "react-redux";
+import withRedux from "next-redux-wrapper";
+import { composeWithDevTools } from "redux-devtools-extension";
+import reducer from "../redux/reducers/index";
+function MyApp({ Component, sessionResponseResult, pageProps }) {
   return [
     <>
-      <Component {...pageProps} />
-    </>,
+      <Component {...sessionResponseResult} {...pageProps} />
+    </>
   ];
 }
 
 MyApp.getInitialProps = async appContext => {
-  let ctxObj = appContext.ctx;
-  const { SESSION } = cookies(ctxObj);
+  const { ctx, Component } = appContext;
+  const { currentSession } = cookies(ctx);
+
+  let sessionResponseResult = {};
   let pageProps = {};
+
+  //page's getInitialProps exist
+  if (Component.getInitialProps) {
+    pageProps = await Component.getInitialProps(ctx);
+  }
   const res = await fetch("http://dev5.kross.kr/login/v2/api/session/exists", {
     method: "post",
     headers: {
       Authorization: process.env.AUTHORIZATION,
-      Cookie: `SESSION=${SESSION}`,
-    },
+      Cookie: `SESSION=${currentSession}`
+    }
   });
-  let json = await res.json();
-  console.log(json);
-  pageProps = json;
-  return { pageProps };
+  sessionResponseResult = await res.json();
+  return { sessionResponseResult, pageProps };
 };
+
+export default withRedux((initialState, options) => {
+  const store = createStore(reducer, initialState, composeWithDevTools());
+  return store;
+})(MyApp);
