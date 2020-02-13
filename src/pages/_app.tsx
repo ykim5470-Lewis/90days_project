@@ -5,10 +5,12 @@ import { Provider } from "react-redux";
 import withRedux from "next-redux-wrapper";
 import { composeWithDevTools } from "redux-devtools-extension";
 import reducer from "../redux/reducers/index";
-function MyApp({ Component, sessionResponseResult, pageProps }) {
+function MyApp({ Component, store, sessionResponseResult, pageProps }) {
   return [
     <>
-      <Component {...sessionResponseResult} {...pageProps} />
+      <Provider store={store}>
+        <Component {...sessionResponseResult} {...pageProps} />
+      </Provider>
     </>
   ];
 }
