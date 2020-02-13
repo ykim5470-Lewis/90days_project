@@ -8,24 +8,7 @@ import { setNotesData } from "../redux/reducers/notes";
 interface Context extends NextPageContext {
   store: Store;
 }
-interface INotes {
-  id: number;
-  inBasket: boolean;
-  product_code: string;
-  manage_balance: number;
-  origin_principal: number;
-  rate: number;
-  startAt: string;
-  returnAt: string;
-  period: number;
-  leftPeriod: number;
-}
-interface INotesProps {
-  children: React.ReactNode;
-  notes: Array<INotes>;
-}
-const Index: NextPage = (props: INotesProps) => {
-  console.log("props: ", props);
+const Index: NextPage = () => {
   const storeNotes = useSelector(reducers => reducers.notes.notesState);
   console.log("storeNotes: ", storeNotes);
   const [state, setState] = useState([]);
@@ -47,7 +30,7 @@ const Index: NextPage = (props: INotesProps) => {
         Click me
       </button>
       <p>{JSON.stringify(state)}</p>
-      <div>{props.notes && `notes.length ${props.notes.length}`}</div>
+      <div>{storeNotes && `storeNotes.length ${storeNotes.length}`}</div>
     </div>
   );
 };
@@ -73,8 +56,6 @@ Index.getInitialProps = async (ctx: Context) => {
       };
     });
     dispatch(setNotesData(processedNotes));
-    const notes = getState().notes.notesState;
-    return { notes };
   } catch (err) {
     console.log("At Index getInitialProps err: ", err);
   }
