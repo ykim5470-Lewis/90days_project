@@ -1,9 +1,8 @@
-import { NextPage } from "next";
+import { NextPage, NextPageContext } from "next";
 import { useState } from "react";
-
 import { fetchKROSS } from "../ajax";
 import { Store } from "redux";
-import { NextPageContext } from "next";
+import { useSelector } from "react-redux";
 import { setNotesData } from "../redux/reducers/notes";
 
 interface Context extends NextPageContext {
@@ -25,8 +24,10 @@ interface INotesProps {
   children: React.ReactNode;
   notes: Array<INotes>;
 }
-const Index: NextPage = props => {
+const Index: NextPage = (props: INotesProps) => {
   console.log("props: ", props);
+  const storeNotes = useSelector(reducers => reducers.notes.notesState);
+  console.log("storeNotes: ", storeNotes);
   const [state, setState] = useState([]);
   async function onClick() {
     try {
@@ -46,7 +47,7 @@ const Index: NextPage = props => {
         Click me
       </button>
       <p>{JSON.stringify(state)}</p>
-      {/* <div>{notes && `notes.length ${notes.length}`}</div> */}
+      <div>{props.notes && `notes.length ${props.notes.length}`}</div>
     </div>
   );
 };
