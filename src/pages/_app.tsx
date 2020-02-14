@@ -5,23 +5,21 @@ import { Provider } from "react-redux";
 import withRedux from "next-redux-wrapper";
 import { composeWithDevTools } from "redux-devtools-extension";
 import reducer from "../redux/reducers/index";
+
 function MyApp({ Component, store, sessionResponseResult, pageProps }) {
   return [
     <>
       <Provider store={store}>
         <Component {...sessionResponseResult} {...pageProps} />
       </Provider>
-    </>
+    </>,
   ];
 }
-
 MyApp.getInitialProps = async appContext => {
   const { ctx, Component } = appContext;
   const { currentSession } = cookies(ctx);
-
   let sessionResponseResult = {};
   let pageProps = {};
-
   //page's getInitialProps exist
   if (Component.getInitialProps) {
     pageProps = await Component.getInitialProps(ctx);
@@ -30,13 +28,19 @@ MyApp.getInitialProps = async appContext => {
     method: "post",
     headers: {
       Authorization: process.env.AUTHORIZATION,
-      Cookie: `SESSION=${currentSession}`
-    }
+      Cookie: `SESSION=${currentSession}`,
+    },
   });
   sessionResponseResult = await res.json();
+  //Auto sign-in page redirect if not a member
+  if (!sessionResponseResult["result"]) {
+    ctx.res.writeHead(301, {
+      Location: "http://dev5.kross.kr/login?u=/wecode/",
+    });
+    ctx.res.end();
+  }
   return { sessionResponseResult, pageProps };
 };
-
 export default withRedux((initialState, options) => {
   const store = createStore(reducer, initialState, composeWithDevTools());
   return store;
