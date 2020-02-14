@@ -9,8 +9,8 @@ interface Context extends NextPageContext {
   store: Store;
 }
 const Index: NextPage = () => {
-  const storeNotes = useSelector(reducers => reducers.notes.notesState);
-  console.log("storeNotes: ", storeNotes);
+  // const storeNotes = useSelector(reducers => reducers.notes.notesState);
+  // console.log("storeNotes: ", storeNotes);
   const [state, setState] = useState([]);
   async function onClick() {
     try {
@@ -30,7 +30,7 @@ const Index: NextPage = () => {
         Click me
       </button>
       <p>{JSON.stringify(state)}</p>
-      <div>{storeNotes && `storeNotes.length ${storeNotes.length}`}</div>
+      {/* <div>{storeNotes && `storeNotes.length ${storeNotes.length}`}</div> */}
     </div>
   );
 };
@@ -38,7 +38,7 @@ Index.getInitialProps = async (ctx: Context) => {
   const { dispatch, getState } = ctx.store;
   try {
     let res = await fetch(
-      "http://10.28.3.231:7999/svc/pgt2/notes?member_id=eq.30&state=eq.investing"
+      "http://10.28.3.231:7999/svc/pgt2/notes?member_id=eq.30&state=eq.investing",
     );
     let data = await res.json();
     const processedNotes = data.map(obj => {
@@ -52,7 +52,7 @@ Index.getInitialProps = async (ctx: Context) => {
         startAt: obj["startAt"],
         returnAt: obj["returnAt"],
         period: obj["period"],
-        leftPeriod: obj["period"]
+        leftPeriod: obj["period"],
       };
     });
     dispatch(setNotesData(processedNotes));
