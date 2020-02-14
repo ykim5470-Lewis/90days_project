@@ -34,7 +34,7 @@ MyApp.getInitialProps = async appContext => {
   sessionResponseResult = await res.json();
   //Auto sign-in page redirect if not a member
   if (!sessionResponseResult["result"]) {
-    ctx.res.writeHead(301, {
+    ctx.res.writeHead(200, {
       Location: "http://dev5.kross.kr/login?u=/wecode/",
     });
     ctx.res.end();
