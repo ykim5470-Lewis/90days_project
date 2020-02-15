@@ -2,15 +2,12 @@ import { NextPage, NextPageContext } from "next";
 import { useState } from "react";
 import { fetchKROSS } from "../ajax";
 import { Store } from "redux";
-import { useSelector } from "react-redux";
 import { setNotesData } from "../redux/reducers/notes";
 
 interface Context extends NextPageContext {
   store: Store;
 }
 const Index: NextPage = () => {
-  // const storeNotes = useSelector(reducers => reducers.notes.notesState);
-  // console.log("storeNotes: ", storeNotes);
   const [state, setState] = useState([]);
   async function onClick() {
     try {
@@ -30,17 +27,14 @@ const Index: NextPage = () => {
         Click me
       </button>
       <p>{JSON.stringify(state)}</p>
-      {/* <div>{storeNotes && `storeNotes.length ${storeNotes.length}`}</div> */}
     </div>
   );
 };
 Index.getInitialProps = async (ctx: Context) => {
-  const { dispatch, getState } = ctx.store;
+  const { dispatch } = ctx.store;
   try {
-    let res = await fetch(
-      "http://10.28.3.231:7999/svc/pgt2/notes?member_id=eq.30&state=eq.investing",
-    );
-    let data = await res.json();
+    let data = await fetchKROSS("notes?member_id=eq.30&state=eq.investing");
+    console.log("fetchKROSSData: ", data.length);
     const processedNotes = data.map(obj => {
       return {
         id: obj["id"],
@@ -52,12 +46,12 @@ Index.getInitialProps = async (ctx: Context) => {
         startAt: obj["startAt"],
         returnAt: obj["returnAt"],
         period: obj["period"],
-        leftPeriod: obj["period"],
+        leftPeriod: obj["period"]
       };
     });
     dispatch(setNotesData(processedNotes));
   } catch (err) {
-    console.log("At Index getInitialProps err: ", err);
+    console.log("At Index getInitialProps Err: ", err);
   }
 };
 export default Index;
