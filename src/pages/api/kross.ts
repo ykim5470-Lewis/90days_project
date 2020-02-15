@@ -1,15 +1,15 @@
-import { Request, Response } from 'express';
-
-import _isoFetcher from '../../ajax/fetcher';
+import { Request, Response } from "express";
+import _isoFetcher from "../../ajax/fetcher";
 
 async function krossFetcher(req: Request, res: Response) {
   const { sql } = JSON.parse(req.body);
 
   try {
     const isoData: RequestInit = {
-      method: 'GET',
+      method: "GET"
     };
-    const url = `${process.env.API_URL}${sql}`;
+    // const url = `${process.env.API_URL}${sql}`;
+    const url = `${process.env.REST_URL}${sql}`;
     const json = await _isoFetcher(url, isoData);
     res.send(json);
   } catch (e) {

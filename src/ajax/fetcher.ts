@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch';
+import fetch from "isomorphic-fetch";
 
 async function _isoFetcher(url: RequestInfo, data: RequestInit) {
   try {
