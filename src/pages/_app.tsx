@@ -11,7 +11,7 @@ function MyApp({ Component, store, sessionResponseResult, pageProps }) {
   console.log(sessionResponseResult.result);
   if (!sessionResponseResult.result) {
     return <ErrorPage {...sessionResponseResult} />;
-  } else
+  } else if (sessionResponseResult.result)
     return [
       <>
         <Provider store={store}>
