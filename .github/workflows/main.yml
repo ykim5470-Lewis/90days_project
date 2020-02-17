@@ -24,7 +24,7 @@ jobs:
           echo PORT=$PORT >> .env
           echo API_URL=$API_URL >> .env
           echo BASE_URL=$BASE_URL >> .env
-          echo AUTHORIZATION=$BASE_URL >> .env
+          echo AUTHORIZATION=$AUTHORIZATION >> .env
 
       - uses: borales/actions-yarn@v2.0.0
         with:
