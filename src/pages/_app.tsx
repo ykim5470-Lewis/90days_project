@@ -22,7 +22,7 @@ function MyApp({ Component, store, sessionResponseResult, pageProps }) {
 }
 MyApp.getInitialProps = async appContext => {
   const { ctx, Component } = appContext;
-  const { Session } = cookies(ctx);
+  const { SESSION } = cookies(ctx);
   let sessionResponseResult = {};
   let pageProps = {};
 
@@ -34,7 +34,7 @@ MyApp.getInitialProps = async appContext => {
     method: "post",
     headers: {
       Authorization: process.env.AUTHORIZATION,
-      Cookie: `SESSION=${Session}`,
+      Cookie: `SESSION=${SESSION}`,
     },
   });
   sessionResponseResult = await res.json();
