@@ -1,10 +1,11 @@
 import React from "react";
 
-function ErrorPage() {
+function ErrorPage(props) {
+  console.log(props);
   return (
-    <div>
-      <a href="http://dev5.kross.kr/login?u=/wecode/"></a>
-    </div>
+    <>
+      <a href="http://dev5.kross.kr/login?u=/wecode/">로그인 필요</a>
+    </>
   );
 }
 

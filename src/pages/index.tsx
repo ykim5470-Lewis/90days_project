@@ -7,7 +7,8 @@ import { setNotesData } from "../redux/reducers/notes";
 interface Context extends NextPageContext {
   store: Store;
 }
-const Index: NextPage = () => {
+const Index: NextPage = props => {
+  console.log(props);
   const [state, setState] = useState([]);
   async function onClick() {
     try {
@@ -46,7 +47,7 @@ Index.getInitialProps = async (ctx: Context) => {
         startAt: obj["startAt"],
         returnAt: obj["returnAt"],
         period: obj["period"],
-        leftPeriod: obj["period"]
+        leftPeriod: obj["period"],
       };
     });
     dispatch(setNotesData(processedNotes));

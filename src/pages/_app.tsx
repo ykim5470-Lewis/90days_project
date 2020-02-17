@@ -5,19 +5,20 @@ import { Provider } from "react-redux";
 import withRedux from "next-redux-wrapper";
 import { composeWithDevTools } from "redux-devtools-extension";
 import reducer from "../redux/reducers/index";
-import ErrorPage from "./";
+import ErrorPage from "./signIn";
 
 function MyApp({ Component, store, sessionResponseResult, pageProps }) {
+  console.log(sessionResponseResult.result);
   if (!sessionResponseResult.result) {
-    return <ErrorPage />;
-  }
-  return [
-    <>
-      <Provider store={store}>
-        <Component {...sessionResponseResult} {...pageProps} />
-      </Provider>
-    </>,
-  ];
+    return <ErrorPage {...sessionResponseResult} />;
+  } else
+    return [
+      <>
+        <Provider store={store}>
+          <Component {...sessionResponseResult} {...pageProps} />
+        </Provider>
+      </>,
+    ];
 }
 MyApp.getInitialProps = async appContext => {
   const { ctx, Component } = appContext;
@@ -36,6 +37,7 @@ MyApp.getInitialProps = async appContext => {
     },
   });
   sessionResponseResult = await res.json();
+  console.log(sessionResponseResult);
 
   return { sessionResponseResult, pageProps };
 };
