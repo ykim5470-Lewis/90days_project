@@ -5,8 +5,12 @@ import { Provider } from "react-redux";
 import withRedux from "next-redux-wrapper";
 import { composeWithDevTools } from "redux-devtools-extension";
 import reducer from "../redux/reducers/index";
+import ErrorPage from "./";
 
 function MyApp({ Component, store, sessionResponseResult, pageProps }) {
+  if (!sessionResponseResult.result) {
+    return <ErrorPage />;
+  }
   return [
     <>
       <Provider store={store}>
