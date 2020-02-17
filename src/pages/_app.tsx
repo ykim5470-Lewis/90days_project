@@ -22,9 +22,10 @@ function MyApp({ Component, store, sessionResponseResult, pageProps }) {
 }
 MyApp.getInitialProps = async appContext => {
   const { ctx, Component } = appContext;
-  const { currentSession } = cookies(ctx);
+  const { Session } = cookies(ctx);
   let sessionResponseResult = {};
   let pageProps = {};
+
   //page's getInitialProps exist
   if (Component.getInitialProps) {
     pageProps = await Component.getInitialProps(ctx);
@@ -33,7 +34,7 @@ MyApp.getInitialProps = async appContext => {
     method: "post",
     headers: {
       Authorization: process.env.AUTHORIZATION,
-      Cookie: `SESSION=${currentSession}`,
+      Cookie: `SESSION=${Session}`,
     },
   });
   sessionResponseResult = await res.json();
